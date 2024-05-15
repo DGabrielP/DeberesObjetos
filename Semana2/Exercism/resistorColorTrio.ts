@@ -11,7 +11,7 @@ enum Color {
     White = 9
 }
 
-export function decodedResistorValue(colores: string[]): string {
+export function resistorValue(colores: string[]): string {
     const valorPrincipal = (Color[colores[0].charAt(0).toUpperCase() + colores[0].slice(1) as keyof typeof Color] * 10 + Color[colores[1].charAt(0).toUpperCase() + colores[1].slice(1) as keyof typeof Color]);
     const ceros = Math.pow(10, Color[colores[2].charAt(0).toUpperCase() + colores[2].slice(1) as keyof typeof Color]);
 
