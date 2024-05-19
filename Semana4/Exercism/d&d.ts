@@ -1,9 +1,28 @@
 export class DnDCharacter {
+    public strength: number;
+    public dexterity: number;
+    public constitution: number;
+    public intelligence: number;
+    public wisdom: number;
+    public charisma: number;
+
+    constructor(strength: number, dexterity: number, constitution: number, intelligence: number, wisdom: number,
+        charisma: number,){
+            this.strength = strength;
+            this.dexterity = dexterity;
+            this.constitution = constitution;
+            this.intelligence = intelligence;
+            this.wisdom = wisdom;
+            this.charisma = charisma
+
+        }
+
+
     public static generateAbilityScore(): number[] {
       const abilityScores: number[] = [];
       for (let i = 0; i < 6; i++) {
       const fourDice: number[] = [];
-      for (let i = 0; i < 5; i++) {
+      for (let j = 0; j < 4; j++) {
         const score = Math.ceil(Math.random() * 6);
         fourDice.push(score);
       }  
@@ -13,6 +32,13 @@ export class DnDCharacter {
        }
         return abilityScores; 
         
+    }
+
+    public static getModAbility(score: number): number{
+        return Math.floor(score - 10) / 2;
+    }
+    public static getHitPoints(score: number): number{
+        return Math.floor(score + 10);
     }
 }
 
@@ -37,8 +63,10 @@ const caracterAbilitys: CharacterAbilities = {
 };
 
 for (const habilidad in caracterAbilitys) {
-    console.log(`Su ${habilidad} es de: ${caracterAbilitys[habilidad]}`);
+    console.log(`Su ${habilidad} es de: ${caracterAbilitys[habilidad]}`); 
 }
+
+
 
 
 
