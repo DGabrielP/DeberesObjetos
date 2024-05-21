@@ -1,3 +1,5 @@
+//PD: Este lo hice yo solito y funcionó :)
+
 export class DnDCharacter {
     public strength: number;
     public dexterity: number;
@@ -5,69 +7,38 @@ export class DnDCharacter {
     public intelligence: number;
     public wisdom: number;
     public charisma: number;
+    public hitpoints: number;
 
-    constructor(strength: number, dexterity: number, constitution: number, intelligence: number, wisdom: number,
-        charisma: number,){
-            this.strength = strength;
-            this.dexterity = dexterity;
-            this.constitution = constitution;
-            this.intelligence = intelligence;
-            this.wisdom = wisdom;
-            this.charisma = charisma
+    constructor() {
+        const abilityScores = DnDCharacter.generateAbilityScores();
+        this.strength = abilityScores[0];
+        this.dexterity = abilityScores[1];
+        this.constitution = abilityScores[2];
+        this.intelligence = abilityScores[3];
+        this.wisdom = abilityScores[4];
+        this.charisma = abilityScores[5];
+        this.hitpoints = 10 + DnDCharacter.getModifierFor(this.constitution);
+    }
 
+    public static generateAbilityScores(): number[] {
+        const abilityScores: number[] = [];
+        for (let i = 0; i < 6; i++) {
+            abilityScores.push(DnDCharacter.generateAbilityScore());
         }
+        return abilityScores;
+    }
 
-
-    public static generateAbilityScore(): number[] {
-      const abilityScores: number[] = [];
-      for (let i = 0; i < 6; i++) {
-      const fourDice: number[] = [];
-      for (let j = 0; j < 4; j++) {
-        const score = Math.ceil(Math.random() * 6);
-        fourDice.push(score);
-      }  
+    public static generateAbilityScore(): number {
+        const fourDice: number[] = [];
+        for (let j = 0; j < 4; j++) {
+            const score = Math.ceil(Math.random() * 6);
+            fourDice.push(score);
+        }
         fourDice.sort((a, b) => a - b).splice(0, 1);
-        const ability = fourDice.reduce((acumulador, elemento) => acumulador + elemento, 0);
-        abilityScores.push(ability); 
-       }
-        return abilityScores; 
-        
+        return fourDice.reduce((acc, val) => acc + val, 0);
     }
 
-    public static getModAbility(score: number): number{
-        return Math.floor(score - 10) / 2;
-    }
-    public static getHitPoints(score: number): number{
-        return Math.floor(score + 10);
+    public static getModifierFor(score: number): number {
+        return Math.floor((score - 10) / 2);
     }
 }
-
-const abilityScores = DnDCharacter.generateAbilityScore();
-
-interface CharacterAbilities {
-    strength: number;
-    dexterity: number;
-    constitution: number;
-    intelligence: number;
-    wisdom: number;
-    charisma: number;
-}
-
-const caracterAbilitys: CharacterAbilities = {
-    strength: abilityScores[0],
-    dexterity: abilityScores[1],
-    constitution: abilityScores[2],
-    intelligence: abilityScores[3],
-    wisdom: abilityScores[4],
-    charisma: abilityScores[5]
-};
-
-for (const habilidad in caracterAbilitys) {
-    console.log(`Su ${habilidad} es de: ${caracterAbilitys[habilidad]}`); 
-}
-
-
-
-
-
-
